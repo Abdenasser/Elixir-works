@@ -1,3 +1,5 @@
+## Pattern matching allows functions
+# to have multiple clauses
 defmodule Cook3 do
   def cook,             do: cook("fry", "sausage")
   def cook(0),          do: cook("bake", "banana")
