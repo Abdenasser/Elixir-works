@@ -17,7 +17,6 @@ defmodule PingPong do
   def ready do
     receive do
       {sender, action, 11} ->
-        IO.puts "#{11} from #{inspect sender}, sent #{inspect action}"
         IO.puts "Game finished..."
         ready
       {sender, action, turn} ->
@@ -39,9 +38,7 @@ defmodule PingPong do
     end
   end
 
-  defp player_pid do
-    self
-  end
+  defp player_pid, do: self
 end
 # Ready function to receive messages from other processes
 # Handle each message
@@ -52,7 +49,9 @@ end
 # 1. get main process PID
 player_1 = self
 # 2. get spawned process PID
-player_2 = spawn(PingPong, :ready, [])
+#player_2 = spawn(PingPong, :ready, [])
+player_2 = Task.start(PingPong, :ready,[])
+IO.inspect player_2
 # 3. inspect PID values
 IO.puts "player_1: #{inspect player_1}"
 IO.puts "player_2: #{inspect player_2}"
