@@ -14,9 +14,10 @@
 
 # Create PingPong module
 defmodule PingPong do
+  @game_finish 11
   def ready do
     receive do
-      {sender, action, 11} ->
+      {_sender, _action, @game_finish} ->
         IO.puts "Game finished..."
         ready
       {sender, action, turn} ->
@@ -50,8 +51,8 @@ end
 player_1 = self
 # 2. get spawned process PID
 #player_2 = spawn(PingPong, :ready, [])
-player_2 = Task.start(PingPong, :ready,[])
-IO.inspect player_2
+#player_2 = elem(Task.start(PingPong, :ready,[]), 1)
+player_2 = PingPong |> Task.start(:ready,[]) |> elem(1)
 # 3. inspect PID values
 IO.puts "player_1: #{inspect player_1}"
 IO.puts "player_2: #{inspect player_2}"
